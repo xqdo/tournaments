@@ -11,7 +11,7 @@ const db = new Sequelize('main', 'root', '1122', {
 router.use(express.json())
 
 // Define the USER MODEL
-const User = db.define('user', {
+export const User = db.define('user', {
     id: {
         type: DataTypes.BIGINT,
         primaryKey: true

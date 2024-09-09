@@ -1,5 +1,6 @@
 import express from 'express';
 import { Sequelize, DataTypes } from 'sequelize';
+import registerUser from './user/register.js';
 
 const router = express.Router();
 
@@ -96,13 +97,7 @@ router.post("/login", (req, res) =>
     res.status(200).send("not yet implemented");
 })
 
-router.post("/register", (req, res) =>
-{
-    const { username, password, email, o_provider, o_access, o_refresh, o_id, bio, name, profileImage } = req.body
-    const id = 10001000
-    User.create({ id: id, username: username, password: password, email: email, o_provider: o_provider, o_access: o_access, o_refresh: o_refresh, o_id: o_id, bio: bio, name: name, profileImage: profileImage })
-    res.status(201).send("user created successfully");
-})
+router.post("/register", registerUser)
 
 //PATCH
 

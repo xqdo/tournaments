@@ -1,6 +1,7 @@
 import express from 'express';
 import { Sequelize, DataTypes } from 'sequelize';
 import registerUser from './user/register.js';
+import login from './user/login.js';
 
 const router = express.Router();
 
@@ -91,11 +92,7 @@ router.get('/:id', (req, res) =>
 })
 //POST
 
-router.post("/login", (req, res) =>
-{
-    const { username, password } = req.body
-    res.status(200).send("not yet implemented");
-})
+router.post("/login", login)
 
 router.post("/register", registerUser)
 

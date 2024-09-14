@@ -3,7 +3,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import { User } from '../users.js'; // Import User model
 
-const SECRET_KEY = process.env.SECRET_KEY;
+import { configDotenv } from 'dotenv';
+configDotenv()
+
+const ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+const REFRESH_KEY = process.env.SECRET_REFRESH_KEY;
 
 // Login route
 export default async function login(req, res)
@@ -29,13 +33,16 @@ export default async function login(req, res)
                     }
 
                     // Generate JWT token
-                    const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+                    const access_token = jwt.sign({ username: user.username }, ACCESS_KEY, { expiresIn: '32s' });
+                    const refresh_token = jwt.sign({ username: user.username }, REFRESH_KEY, { expiresIn: '1d' });
 
                     res.json({ token });
                 })
                 .catch(err =>
                 {
-                    res.status(500).json({ message: 'Error while comparing passwords' });
+                    console.log(password, user.password, SECRET_KEY);
+
+                    res.status(500).json({ message: 'Error while comparing passwords' + err });
                 });
         })
         .catch(err =>

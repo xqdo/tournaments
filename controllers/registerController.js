@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { User } from "../users.js";
+import { User } from "../models/user.js";
 
 export default async function registerUser(req, res)
 {
@@ -36,8 +36,4 @@ export default async function registerUser(req, res)
         res.status(201).send("user created successfully");
     }).catch(err => console.error(err));
     res.status(500)
-
-
-
-
 }

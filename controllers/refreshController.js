@@ -12,6 +12,7 @@ export default async function refresh(req, res)
     const cookie = req.cookies
     if (!cookie) return res.sendStatus(401);
     const token = cookie.jwt;
+    if (!token) return res.sendStatus(403);
     jwt.verify(token, REFRESH_KEY, (err, user) =>
     {
         if (err) return res.sendStatus(403);

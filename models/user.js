@@ -1,9 +1,5 @@
-import { Sequelize, DataTypes } from 'sequelize';
-
-const db = new Sequelize('main', 'root', '1122', {
-    host: 'localhost',
-    dialect: 'mysql'
-});
+import { DataTypes } from 'sequelize';
+import { db } from '../config/database.js';
 
 // Define the USER MODEL
 export const User = db.define('user', {
@@ -29,9 +25,9 @@ export const User = db.define('user', {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    role: {
-        type: DataTypes.STRING,
-        defaultValue: 'user'
+    roles: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1200
     },
     o_provider: {
         type: DataTypes.STRING,
@@ -65,5 +61,5 @@ export const User = db.define('user', {
 
 User.sync().then(() =>
 {
-    console.log('User table created successfully');
-})
+
+}).catch(err => console.log(err))

@@ -28,7 +28,7 @@ export default async function registerUser(req, res)
     const id = await idGen();
     bcrypt.hash(password, 12).then(pwd =>
     {
-        bcrypt.compare("11211211", pwd).then(x => console.log(x)).catch(err => console.log(err))
+
         User.create({ id: id, username: username, password: pwd, email: email, o_provider: o_provider, o_access: o_access, o_refresh: o_refresh, o_id: o_id, bio: bio, name: name, profileImage: profileImage }).then(() =>
         {
 

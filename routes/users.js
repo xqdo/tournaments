@@ -4,6 +4,7 @@ import registerUser from '../controllers/registerController.js';
 import login from '../controllers/loginController.js';
 import refresh from '../controllers/refreshController.js';
 import logout from '../controllers/logoutController.js';
+import patchUser from '../controllers/edituserController.js';
 
 const router = express.Router();
 
@@ -30,7 +31,7 @@ router.post("/login", login)
 router.post("/register", registerUser)
 
 //PATCH
-
+router.patch("/", patchUser)
 //DELETE
 
 //DO NOT CHANGE THIS 

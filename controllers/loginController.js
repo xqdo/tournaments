@@ -39,7 +39,6 @@ export default async function login(req, res)
                 })
                 .catch(err =>
                 {
-                    console.log(password, user.password, ACCESS_KEY);
 
                     res.status(500).json({ message: 'Error while comparing passwords' + err });
                 });

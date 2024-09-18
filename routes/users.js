@@ -19,11 +19,7 @@ router.get('/all', (req, res) =>
 })
 router.get('/', refresh)
 router.get('/logout', logout)
-// router.get('/:id', (req, res) =>
-// {
-//     const { id } = req.params
-//     res.status(200).send("not yet implemented " + id);
-// })
+
 //POST
 
 router.post("/login", login)

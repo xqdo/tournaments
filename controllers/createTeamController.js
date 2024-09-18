@@ -30,22 +30,20 @@ export default function createTeam(req, res)
     const linkGen = () =>
     {
         const link = crypto.randomBytes(8).toString('hex');
-        return Team.findAll({
-            attributes: [inviteLink],
-            raw: true
-        }).then(links =>
-        {
-            if (links.includes(link))
+        return Team.findOne({ where: { inviteLink: link } })
+            .then(existingLink =>
             {
-                return linkGen();  // Recursive call if link is taken
-            }
-            return link;  // Return the generated link
-
-        }).catch(err =>
-        {
-            console.error('Error generating unique link:', err);
-
-        });
+                if (existingLink)
+                {
+                    return linkGen();  // Recursive call if link is taken
+                }
+                return link;  // Return the unique link
+            })
+            .catch(err =>
+            {
+                console.error("Error generating invite link:", err);
+                throw new Error("Error generating invite link");
+            });
     };
     const id = idGen()
     const inviteLink = linkGen()

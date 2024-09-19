@@ -3,6 +3,8 @@ import express from 'express';
 import { Team, teamMembers } from '../models/team.js';
 import JoinTeam from '../controllers/jointeamController.js';
 import createTeam from '../controllers/createTeamController.js';
+import dropTeam from '../controllers/dropteamController.js';
+import auth from '../middlewares/authmw.js';
 const router = express.Router();
 router.use(express.json())
 // router.use(auth)
@@ -11,8 +13,8 @@ router.use(express.json())
 // THE CRUD API
 // DON'T USE JUST '/' ROUTES 
 //POST
-router.post('/join/:link', JoinTeam)
-router.post('/create', createTeam)
+router.get('/join/:link', auth, JoinTeam)
+router.post('/create', auth, createTeam)
 //GET
 router.get('/', (req, res) =>
 {
@@ -30,6 +32,6 @@ router.get('/members', (req, res) =>
 //PATCH
 
 //DELETE
-
+router.delete('/', auth, dropTeam)
 //DO NOT CHANGE THIS 
 export default router

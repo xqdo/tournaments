@@ -4,9 +4,11 @@ import { User } from "../models/user.js";
 export default function patchUser(req, res)
 {
     const { username, name, oldpassword, newPassword, bio } = req.body;
+    const id = req.user.user
+    console.log(req.user);
 
     // Find the user by username
-    User.findOne({ where: { username } })
+    User.findByPk(id)
         .then(existingUser =>
         {
             if (!existingUser)
@@ -44,7 +46,7 @@ export default function patchUser(req, res)
             // Wait for password hash (if applicable) and then update user
             User.update(updates, { where: { username } }).then(() =>
             {
-                return res.status(201).send("done updating")
+                return res.status(206).send("done updating this :" + JSON.stringify(updates))
             }).catch(err =>
             {
                 console.error("Error finding user:", err);

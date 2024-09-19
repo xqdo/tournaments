@@ -5,7 +5,8 @@ import login from '../controllers/loginController.js';
 import refresh from '../controllers/refreshController.js';
 import logout from '../controllers/logoutController.js';
 import patchUser from '../controllers/edituserController.js';
-
+import deleteUser from '../controllers/deleteUserController.js';
+import auth from "../middlewares/authmw.js"
 const router = express.Router();
 
 // THE CRUD API
@@ -27,8 +28,8 @@ router.post("/login", login)
 router.post("/register", registerUser)
 
 //PATCH
-router.patch("/", patchUser)
+router.patch("/", auth, patchUser)
 //DELETE
-
+router.post('/delete', auth, deleteUser)
 //DO NOT CHANGE THIS 
 export default router

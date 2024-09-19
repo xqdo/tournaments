@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { configDotenv } from 'dotenv';
+import { User } from '../models/user.js';
 configDotenv()
 export default function auth(req, res, next)
 {
@@ -8,7 +9,13 @@ export default function auth(req, res, next)
     jwt.verify(token, process.env.SECRET_ACCESS_KEY, (err, user) =>
     {
         if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
+        User.findByPk(user.user).then(founduser =>
+        {
+            if (!founduser) return res.sendStatus(401);
+            req.user = user;
+            next();
+        })
+
+
     });
 }

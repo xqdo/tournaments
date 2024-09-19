@@ -4,7 +4,10 @@ import { User } from "../models/user.js";
 export default async function registerUser(req, res)
 {
     const { username, password, email, o_provider, o_access, o_refresh, o_id, bio, name, profileImage } = req.body
-
+    if (!username && !name)
+    {
+        res.status(400).send('provide credintials')
+    }
     const idGen = async () =>
     {
         try

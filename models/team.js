@@ -32,7 +32,8 @@ const Team = db.define(
                 model: 'user',
                 key: 'id'
             },
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     },
 

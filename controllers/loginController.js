@@ -31,8 +31,8 @@ export default async function login(req, res)
                     }
 
                     // Generate JWT token
-                    const access_token = jwt.sign({ username: user.username }, ACCESS_KEY, { expiresIn: '32s' });
-                    const refresh_token = jwt.sign({ username: user.username }, REFRESH_KEY, { expiresIn: '1d' });
+                    const access_token = jwt.sign({ user: user.id }, ACCESS_KEY, { expiresIn: '1h' });
+                    const refresh_token = jwt.sign({ user: user.id }, REFRESH_KEY, { expiresIn: '1d' });
 
                     res.cookie('jwt', refresh_token, { httpOnly: true, MaxAge: 60 * 60 * 24 });
                     res.json({ access_token });

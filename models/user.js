@@ -26,8 +26,8 @@ export const User = db.define('user', {
         allowNull: true,
     },
     roles: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1200
+        type: DataTypes.JSON,
+        defaultValue: [1200]
     },
     o_provider: {
         type: DataTypes.STRING,
@@ -56,7 +56,18 @@ export const User = db.define('user', {
         type: DataTypes.STRING,
         allowNull: true,
     },
-
+    team: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'team',
+            key: 'id'
+        }
+    },
+    tournamentHistory: {
+        type: DataTypes.JSON,
+        defaultValue: []
+    },
 }, { freezeTableName: true, updatedAt: false });
 
 User.sync().then(() =>

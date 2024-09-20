@@ -26,49 +26,26 @@ const Team = db.define(
             type: DataTypes.STRING,
             allowNull: true
         },
-        teamCaptin: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: 'user',
-                key: 'id'
-            },
+        members: {
+            type: DataTypes.JSON,
             allowNull: false,
-            unique: true
+            defaultValue: []
+        },
+        teamDescription: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        teamCover: {
+            type: DataTypes.STRING,
+            allowNull: true
         }
+
     },
 
     {
         freezeTableName: true
     }
 )
-
-const teamMembers = db.define(
-    'teamMembers',//table name
-    {
-
-        userId: {
-            type: DataTypes.BIGINT,
-            references: {
-                model: 'user',
-                key: 'id'
-            },
-            allowNull: false,
-            unique: true
-        },
-        teamId: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'team',
-                key: 'id'
-            },
-            allowNull: false
-        }
-    },//columns
-    {
-        freezeTableName: true,
-        updatedAt: false
-    }//options 
-);
 
 db.sync().then().catch(err => console.log(err))
 export { Team, teamMembers }

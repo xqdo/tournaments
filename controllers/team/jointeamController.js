@@ -1,5 +1,5 @@
-import { Team, teamMembers } from "../models/team.js";
-import { User } from "../models/user.js";
+import { Team, teamMembers } from "../../models/team.js";
+import { User } from "../../models/user.js";
 
 export default async function joinTeam(req, res)
 {

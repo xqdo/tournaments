@@ -1,5 +1,5 @@
-import { Team, teamMembers } from "../models/team.js";
-import { User } from "../models/user.js";
+import { Team, teamMembers } from "../../models/team.js";
+import { User } from "../../models/user.js";
 import crypto from "crypto"
 
 export default async function createTeam(req, res)

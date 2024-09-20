@@ -1,5 +1,5 @@
-import { Team } from "../models/team.js";
-import { User } from "../models/user.js";
+import { Team } from "../../models/team.js";
+import { User } from "../../models/user.js";
 
 export default function dropTeam(req, res)
 {

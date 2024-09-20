@@ -1,11 +1,11 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import registerUser from '../controllers/registerController.js';
-import login from '../controllers/loginController.js';
-import refresh from '../controllers/refreshController.js';
-import logout from '../controllers/logoutController.js';
-import patchUser from '../controllers/edituserController.js';
-import deleteUser from '../controllers/deleteUserController.js';
+import registerUser from '../controllers/user/registerController.js';
+import login from '../controllers/user/loginController.js';
+import refresh from '../controllers/user/refreshController.js';
+import logout from '../controllers/user/logoutController.js';
+import patchUser from '../controllers/user/edituserController.js';
+import deleteUser from '../controllers/user/deleteUserController.js';
 import auth from "../middlewares/authmw.js"
 const router = express.Router();
 

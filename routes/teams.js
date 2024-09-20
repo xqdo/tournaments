@@ -1,9 +1,9 @@
 import express from 'express';
 // import auth from "../middlewares/authmw.js";
 import { Team, teamMembers } from '../models/team.js';
-import JoinTeam from '../controllers/jointeamController.js';
-import createTeam from '../controllers/createTeamController.js';
-import dropTeam from '../controllers/dropteamController.js';
+import JoinTeam from '../controllers/team/jointeamController.js';
+import createTeam from '../controllers/team/createTeamController.js';
+import dropTeam from '../controllers/team/dropteamController.js';
 import auth from '../middlewares/authmw.js';
 const router = express.Router();
 router.use(express.json())

@@ -1,7 +1,7 @@
 import { db } from '../config/database.js';
 import { DataTypes } from 'sequelize';
 
-db.define(
+const tournament = db.define(
     "tournament",
     {
         id: {
@@ -186,3 +186,7 @@ db.define(
         timestamps: false,
     }
 )
+
+
+db.sync().then().catch((err) => console.log(err))
+export default tournament

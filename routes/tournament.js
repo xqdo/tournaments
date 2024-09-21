@@ -7,7 +7,7 @@ const router = express.Router();
 
 //create tournament
 
-//update tournament
+//edit tournament
 
 //delete tournament
 
@@ -22,7 +22,5 @@ const router = express.Router();
 //edit bracket
 
 //add orginizer
-
-//
 
 export default router

@@ -9,27 +9,33 @@ import deleteUser from '../controllers/user/deleteUserController.js';
 import auth from "../middlewares/authmw.js"
 const router = express.Router();
 
-// THE CRUD API
-// DON'T USE JUST '/' ROUTES 
-//GET
 router.use(express.json())
 router.use(cookieParser())
-router.get('/all', (req, res) =>
-{
-    res.status(200).send("hello yousef");
-})
+// THE CRUD API
+// DON'T USE JUST '/' ROUTES 
+
+
+// GET ALL USERS
+
+//refresh the token 
 router.get('/', refresh)
+
+//logout the user
 router.get('/logout', logout)
 
-//POST
+//get User By username
 
+//login
 router.post("/login", login)
 
+//register
 router.post("/register", registerUser)
 
-//PATCH
+//edit Anything
 router.patch("/", auth, patchUser)
-//DELETE
+
+//delete User
+//???? - EDIT for the Team sake - ????
 router.post('/delete', auth, deleteUser)
-//DO NOT CHANGE THIS 
+
 export default router

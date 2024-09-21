@@ -10,7 +10,8 @@ const Team = db.define(
         },
         name: {
             type: DataTypes.STRING(32),
-            allowNull: false
+            allowNull: false,
+            unique: true,
         },
         inviteLink: {
             type: DataTypes.STRING,

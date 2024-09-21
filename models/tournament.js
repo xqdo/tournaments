@@ -167,8 +167,19 @@ db.define(
         Participants: {
             type: DataTypes.JSON,
             defaultValue: []
+        },
+        creator: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: "user",
+                key: "id"
+            },
+            allowNull: false
+        },
+        orginizers: {
+            type: DataTypes.JSON,
+            allowNull: true
         }
-
     },
     {
         freezeTableName: true,

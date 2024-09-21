@@ -7,31 +7,29 @@ import dropTeam from '../controllers/team/dropteamController.js';
 import auth from '../middlewares/authmw.js';
 const router = express.Router();
 router.use(express.json())
-// router.use(auth)
+router.use(auth)
 
+//join team 
+//?????- Edit this -?????
+router.get('/join/:link', JoinTeam)
 
-// THE CRUD API
-// DON'T USE JUST '/' ROUTES 
-//POST
-router.get('/join/:link', auth, JoinTeam)
-router.post('/create', auth, createTeam)
-//GET
-router.get('/', (req, res) =>
-{
-    Team.findAll().then(teams => res.status(200).json(teams));
-})
+//create team
+//?????- Edit this -?????
+router.post('/create', createTeam)
 
-router.get('/members', (req, res) =>
-{
-    teamMembers.findAll().then(teamMembers => res.status(200).json(teamMembers));
-})
+//list team members
 
+//kick member
 
-//PUT
+//member leave 
 
-//PATCH
+//edit team details
 
-//DELETE
-router.delete('/', auth, dropTeam)
+//list of all teams 
+
+//get one team by name 
+
+//drop team
+router.delete('/', dropTeam)
 //DO NOT CHANGE THIS 
 export default router

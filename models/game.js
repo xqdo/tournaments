@@ -29,7 +29,11 @@ const Game = db.define(
         platforms: {
             type: DataTypes.JSON,
             allowNull: false,
-        }
+        },
+        tournamentsOnThisGame: {
+            type: DataTypes.JSON,
+            defaultValue: []
+        },
     },
     {
         freezeTableName: true,

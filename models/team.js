@@ -49,4 +49,4 @@ const Team = db.define(
 )
 
 db.sync().then().catch(err => console.log(err))
-export { Team, teamMembers }
+export { Team }

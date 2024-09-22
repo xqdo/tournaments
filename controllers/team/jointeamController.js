@@ -1,55 +1,58 @@
-import { Team, teamMembers } from "../../models/team.js";
+import { Team } from "../../models/team.js";
 import { User } from "../../models/user.js";
 
-export default async function joinTeam(req, res)
-{
-    const inviteLink = req.params.link; // Extract inviteLink from URL parameters
-    const userId = req.user.user;
+export default function JoinTeam(req, res) {
+    const { username, name } = req.body;  // Expecting a single username for the new member
+    let team;  // Declare team variable in outer scope
 
-    try
-    {
-        // Check if the user exists
-        const user = await User.findByPk(userId);
-        if (!user)
-        {
-            return res.status(404).send("User not found");
-        }
+    // Find the team by name
+    Team.findOne({ where: { name } })
+        .then((foundTeam) => {
+            if (!foundTeam) {
+                return res.status(404).json({ message: 'Team not found' });
+            }
+            team = foundTeam;  // Assign found team to the outer variable
 
-        // Find the team by invite link
-        const team = await Team.findOne({ where: { inviteLink } });
-        if (!team)
-        {
-            return res.status(404).send("Team not found");
-        }
+            // Find the user by username
+            return User.findOne({
+                where: { username },
+                attributes: ['id', 'username']  // Select only the 'id' and 'username'
+            });
+        })
+        .then((user) => {
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
 
-        // Check if the team is full
-        const teamMembersList = await teamMembers.findAll({ where: { teamId: team.id } });
-        if (teamMembersList.length >= 6)
-        {
-            return res.status(403).send("Team is full");
-        }
+            // Check if the user is already a member of the team
+            const memberExists = team.members && team.members.some(member => member.id === user.id);
+            if (memberExists) {
+                return res.status(400).json({ message: 'User is already a member of the team' });
+            }
 
-        // Check if the user is already a member of the team
-        const isMember = teamMembersList.some(member => member.userId === userId);
-        if (isMember)
-        {
-            return res.status(403).send("User is already a member of this team");
-        }
+            // Prepare the new member object with role and joinedAt timestamp
+            const newMember = {
+                id: user.id,
+                role: 'Member',  // Set the role of the new user
+                joinedAt: new Date().toISOString()  // Add the current time when the user joins
+            };
 
-        // Check if the user is already a member of any team
-        const existingMember = await teamMembers.findOne({ where: { userId } });
-        if (existingMember)
-        {
-            return res.status(403).send("User is already a member of another team");
-        }
+            // Combine existing members with the new member
+            const updatedMembers = [...team.members.filter(member => member.id !== user.id), newMember];
 
-        // Add the user to the team
-        await teamMembers.create({ userId, teamId: team.id });
-        return res.status(201).send("User added to team successfully");
-
-    } catch (err)
-    {
-        console.error("Error joining team:", err);
-        return res.status(500).send("Error joining team");
-    }
+            // Update the team with the new member
+            return team.update({ members: updatedMembers })
+                .then(() => {
+                    // Update the user's team reference
+                    user.team = team.id;
+                    return user.save();  // Save the updated user
+                });
+        })
+        .then(() => {
+            res.status(200).json({ message: 'Member added successfully' });
+        })
+        .catch((error) => {
+            console.error('Error adding member:', error);  // Log the error for debugging
+            res.status(500).json({ message: 'Error adding member', error });
+        });
 }

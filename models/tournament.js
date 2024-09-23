@@ -189,4 +189,4 @@ const Tournament = db.define(
 
 
 Tournament.sync().then().catch((err) => console.log(err))
-export default Tournament
+export { Tournament }

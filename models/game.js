@@ -30,6 +30,10 @@ const Game = db.define(
         platforms: {
             type: DataTypes.JSON,
             allowNull: false,
+        },
+        gameLogo: {
+            type: DataTypes.STRING,
+            allowNull: true,
         }
     },
     {

@@ -2,7 +2,7 @@ import { Game } from "../../models/game.js";
 
 export default function editGame(req, res)
 {
-    const { gameName, battleRoyale, solo, teamSize, platforms } = req.body
+    const { gameName, battleRoyale, solo, teamSize, platforms, gameLogo } = req.body
     const { id } = req.params
     Game.findByPk(id).then((game) =>
     {
@@ -16,6 +16,7 @@ export default function editGame(req, res)
         if (solo === true || solo === false) updates.solo = solo;
         if (teamSize) updates.teamSize = teamSize;
         if (platforms) updates.platforms = platforms;
+        if (gameLogo) updates.gameLogo = gameLogo;
         game.update(updates).then(() => res.status(201).send(game)).catch((err) => res.status(500).send(err));
     }).catch((err) => res.status(500).send(err));
 }

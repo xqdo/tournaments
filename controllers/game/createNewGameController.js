@@ -2,8 +2,8 @@ import { Game } from "../../models/game.js";
 
 export default function createNewGame(req, res)
 {
-    const { gameName, battleRoyale, solo, teamSize, platforms } = req.body
-    Game.create({ gameName, battleRoyale, solo, teamSize, platforms })
+    const { gameName, battleRoyale, solo, teamSize, platforms, gameLogo } = req.body
+    Game.create({ gameName, battleRoyale, solo, teamSize, platforms, gameLogo })
         .then((game) =>
         {
             res.status(201).json(game)

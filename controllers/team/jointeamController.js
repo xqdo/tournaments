@@ -1,33 +1,44 @@
 import { Team } from "../../models/team.js";
 import { User } from "../../models/user.js";
 
-export default function JoinTeam(req, res) {
-    const { username, name } = req.body;  // Expecting a single username for the new member
+export default function JoinTeam(req, res)
+{
+    const { name } = req.body;  // Expecting a single username for the new member
     let team;  // Declare team variable in outer scope
 
     // Find the team by name
     Team.findOne({ where: { name } })
-        .then((foundTeam) => {
-            if (!foundTeam) {
+        .then((foundTeam) =>
+        {
+            if (!foundTeam)
+            {
                 return res.status(404).json({ message: 'Team not found' });
             }
             team = foundTeam;  // Assign found team to the outer variable
 
             // Find the user by username
             return User.findOne({
-                where: { username },
-                attributes: ['id', 'username']  // Select only the 'id' and 'username'
+                where: { username: req.user.username },
+                attributes: ['id', 'username', 'team']  // Select only the 'id' and 'username'
             });
         })
-        .then((user) => {
-            if (!user) {
+        .then((user) =>
+        {
+            if (!user)
+            {
                 return res.status(404).json({ message: 'User not found' });
             }
 
             // Check if the user is already a member of the team
             const memberExists = team.members && team.members.some(member => member.id === user.id);
-            if (memberExists) {
-                return res.status(400).json({ message: 'User is already a member of the team' });
+            if (memberExists)
+            {
+                return res.status(400).json({ message: 'User is already a member of this team' });
+            }
+
+            if (user.team)
+            {
+                return res.status(400).json({ message: 'User is already a member of another team' });
             }
 
             // Prepare the new member object with role and joinedAt timestamp
@@ -42,16 +53,19 @@ export default function JoinTeam(req, res) {
 
             // Update the team with the new member
             return team.update({ members: updatedMembers })
-                .then(() => {
+                .then(() =>
+                {
                     // Update the user's team reference
                     user.team = team.id;
                     return user.save();  // Save the updated user
                 });
         })
-        .then(() => {
+        .then(() =>
+        {
             res.status(200).json({ message: 'Member added successfully' });
         })
-        .catch((error) => {
+        .catch((error) =>
+        {
             console.error('Error adding member:', error);  // Log the error for debugging
             res.status(500).json({ message: 'Error adding member', error });
         });

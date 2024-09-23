@@ -13,7 +13,7 @@ import searchTeamsByName from '../controllers/team/getteam.js';
 const router = express.Router();
 router.use(express.json())
 //join team 
-//?????- Edit this -????? workiung 
+//?????- Edit this -????? working 
 router.patch('/join', JoinTeam)
 
 //create team
@@ -21,18 +21,18 @@ router.patch('/join', JoinTeam)
 router.post('/create', createTeam)
 
 //list team members working 
-router.get("/:teamName", listTeamMembers)
+router.get("/:teamName/members", listTeamMembers)
 //kick member working
 router.patch("/kickuser", kickMember)
 //member leave working
-router.patch("/leave",leaveTeam)
+router.patch("/leave", leaveTeam)
 //edit team details working 
-router.patch("/edit",patchTeam)
-//list of all teams  not working well 
-router.get('/teams',getAllTeams)
-//get one team by namex not working well 
-router.get('/team',searchTeamsByName)
+router.patch("/edit", patchTeam)
+//list of all teams WORKING 
+router.get('/all', getAllTeams)
+//get one team by name not working well 
+router.get('/:teamName', searchTeamsByName)
 //drop team working
-router.post('/', dropTeam)
+router.delete('/:teamName', dropTeam)
 //DO NOT CHANGE THIS 
 export default router

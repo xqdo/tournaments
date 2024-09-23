@@ -39,7 +39,8 @@ const Team = db.define(
         teamCover: {
             type: DataTypes.STRING,
             allowNull: true
-        }
+        },
+
 
     },
 
@@ -48,5 +49,5 @@ const Team = db.define(
     }
 )
 
-db.sync().then().catch(err => console.log(err))
+Team.sync().then().catch(err => console.log(err))
 export { Team }

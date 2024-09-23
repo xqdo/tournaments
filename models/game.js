@@ -13,6 +13,7 @@ const Game = db.define(
         gameName: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true
         },
         battleRoyale: {
             type: DataTypes.BOOLEAN,
@@ -29,11 +30,7 @@ const Game = db.define(
         platforms: {
             type: DataTypes.JSON,
             allowNull: false,
-        },
-        tournamentsOnThisGame: {
-            type: DataTypes.JSON,
-            defaultValue: []
-        },
+        }
     },
     {
         freezeTableName: true,
@@ -41,6 +38,6 @@ const Game = db.define(
     }
 )
 
-db.sync().then().catch((err) => console.log(err))
+Game.sync().then().catch((err) => console.log(err))
 
 export { Game };

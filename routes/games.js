@@ -1,17 +1,17 @@
 import express from 'express';
-import { Game } from '../models/game.js';
+import getAllGames from '../controllers/game/getAllGamesController.js';
+import editGame from '../controllers/game/editGameController.js';
+import deleteGame from '../controllers/game/deleteGameController.js';
+import createNewGame from '../controllers/game/createNewGameController.js';
 const router = express.Router();
 
 //get all games 
-
-//get all platfroms
-
+router.get('/', getAllGames);
 //edit game info 
-
+router.patch('/:id', editGame);
 //delete game
-
+router.delete('/:id', deleteGame);
 //add game 
-
-//add platform to game
+router.post('/', createNewGame);
 
 export default router

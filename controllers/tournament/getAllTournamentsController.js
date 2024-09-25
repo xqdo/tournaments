@@ -1,4 +1,4 @@
-import { Tournament } from "../../models/tournament";
+import { Tournament } from "../../models/tournament.js";
 
 export default function getAllTournaments(req, res)
 {

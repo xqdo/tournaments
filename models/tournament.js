@@ -72,15 +72,15 @@ const Tournament = db.define(
         },
         MaxParticipants: {
             type: DataTypes.INTEGER,
-            allowNull: flase
+            allowNull: false
         },
         MinParticipants: {
             type: DataTypes.INTEGER,
-            allowNull: flase
+            allowNull: false
         },
         TeamSize: {
             type: DataTypes.INTEGER,
-            allowNull: flase
+            allowNull: false
         },
         QualifyingType: {
             type: DataTypes.ENUM,
@@ -132,19 +132,19 @@ const Tournament = db.define(
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        SponserName: {
+        SponsorName: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        SponserLogo: {
+        SponsorLogo: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        SponserCountry: {
+        SponsorCountry: {
             type: DataTypes.STRING,
             allowNull: true
         },
-        SponserWebsite: {
+        SponsorWebsite: {
             type: DataTypes.STRING,
             allowNull: true
         },
@@ -169,7 +169,7 @@ const Tournament = db.define(
             defaultValue: []
         },
         creator: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             references: {
                 model: "user",
                 key: "id"

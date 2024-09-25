@@ -5,7 +5,7 @@ import deleteGame from '../controllers/game/deleteGameController.js';
 import createNewGame from '../controllers/game/createNewGameController.js';
 import popularGames from '../controllers/game/popularGamesControllers.js';
 const router = express.Router();
-
+router.use(express.json());
 //get all games 
 router.get('/', getAllGames);
 //edit game info 

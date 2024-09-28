@@ -178,7 +178,7 @@ const Tournament = db.define(
         },
         orginizers: {
             type: DataTypes.JSON,
-            allowNull: true
+            defaultValue: "[]"
         }
     },
     {

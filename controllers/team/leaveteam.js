@@ -15,7 +15,7 @@ export default function leaveTeam(req, res)
             }
 
             // Find the user by their username
-            return User.findOne({ where: { username: req.user.username } })
+            return User.findOne({ where: { id: req.user.id } })
                 .then((user) =>
                 {
                     if (!user)

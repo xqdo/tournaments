@@ -12,14 +12,14 @@ export default function patchTeam(req, res)
         regenerateInviteLink,
         newLeaderUsername // New leader username
     } = req.body;
-
+    const { user } = req; // Assuming req.user holds the authenticated user
     // Find the user by username to get the user ID
-    User.findOne({ where: { username: req.user.username } })
+    User.findOne({ where: { id: user.user } })
         .then(user =>
         {
             if (!user)
             {
-                return res.status(404).send("User not found");
+                return res.status(404).send("user not found");
             }
 
             const userId = user.id;

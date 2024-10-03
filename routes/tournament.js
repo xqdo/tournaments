@@ -12,15 +12,15 @@ import addOrginizer from '../controllers/tournament/addOrginizer.js';
 const router = express.Router();
 router.use(express.json());
 router.use(auth);
-//get all tournaments
+//get all tournaments working
 router.get('/', getAllTournaments);
-//get tournament by slug
+//get tournament by slug working
 router.get('/:slug', getTournamentBySlug);
-//create tournament
+//create tournament working
 router.post("/create", createTournament)
-//edit tournament
+//edit tournament working
 router.patch('/:id', editTournament)
-//delete tournament
+//delete tournament working
 router.delete('/:id', deleteTournament)
 //join tournament
 router.post("/join/:tournamentLink", joinTournament)
@@ -31,5 +31,5 @@ router.get('/participants/:tournamentId', getAllParticipants)
 //edit bracket
 router.patch('/:tournamentId/rounds/:roundNumber/matches/:matchId')
 //add orginizer
-router.post('/addOrginizer/:tournamentId/', addOrginizer)
+router.post('/addOrginizer/:tournamentId', addOrginizer)
 export default router

@@ -1,72 +1,61 @@
 import { Team } from "../../models/team.js";
 import { User } from "../../models/user.js";
 
-export default function JoinTeam(req, res)
-{
-    const { name } = req.body;  // Expecting a single username for the new member
-    let team;  // Declare team variable in outer scope
+export default async function JoinTeam(req, res) {
+    try {
+        const { name } = req.body;  // Team name from request
+        const { user } = req;       // User from the request (assuming it's populated via auth middleware)
 
-    // Find the team by name
-    Team.findOne({ where: { name } })
-        .then((foundTeam) =>
-        {
-            if (!foundTeam)
-            {
-                return res.status(404).json({ message: 'Team not found' });
-            }
-            team = foundTeam;  // Assign found team to the outer variable
+      
 
-            // Find the user by username
-            return User.findOne({
-                where: { username: req.user.username },
-                attributes: ['id', 'username', 'team']  // Select only the 'id' and 'username'
-            });
-        })
-        .then((user) =>
-        {
-            if (!user)
-            {
-                return res.status(404).json({ message: 'User not found' });
-            }
-
-            // Check if the user is already a member of the team
-            const memberExists = team.members && team.members.some(member => member.id === user.id);
-            if (memberExists)
-            {
-                return res.status(400).json({ message: 'User is already a member of this team' });
-            }
-
-            if (user.team)
-            {
-                return res.status(400).json({ message: 'User is already a member of another team' });
-            }
-
-            // Prepare the new member object with role and joinedAt timestamp
-            const newMember = {
-                id: user.id,
-                role: 'Member',  // Set the role of the new user
-                joinedAt: new Date().toISOString()  // Add the current time when the user joins
-            };
-
-            // Combine existing members with the new member
-            const updatedMembers = [...team.members.filter(member => member.id !== user.id), newMember];
-
-            // Update the team with the new member
-            return team.update({ members: updatedMembers })
-                .then(() =>
-                {
-                    // Update the user's team reference
-                    user.team = team.id;
-                    return user.save();  // Save the updated user
-                });
-        })
-        .then(() =>
-        {
-            res.status(200).json({ message: 'Member added successfully' });
-        })
-        .catch((error) =>
-        {
-            console.error('Error adding member:', error);  // Log the error for debugging
-            res.status(500).json({ message: 'Error adding member', error });
+        // Find the team by name
+        const team = await Team.findOne({ where: { name } });
+        if (!team) {
+            return res.status(404).json({ message: 'Team not found' });
+        }
+        console.log(user.username)
+        // Find the user in the database by username
+        const foundUser = await User.findOne({
+            where: { username: user.username },
+            attributes: ['id', 'username', 'team']  // Only select necessary fields
         });
+
+        if (!foundUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the user is already in a team
+        if (foundUser.team) {
+            return res.status(400).json({ message: 'User is already a member of another team' });
+        }
+
+        // Check if the user is already a member of the current team
+        const memberExists = team.members && team.members.some(member => member.id === foundUser.id);
+        if (memberExists) {
+            return res.status(400).json({ message: 'User is already a member of this team' });
+        }
+
+        // Add the user as a new member
+        const newMember = {
+            id: foundUser.id,
+            role: 'Member',
+            joinedAt: new Date().toISOString()  // Capture join time
+        };
+
+        // Update the team's member list with the new member
+        const updatedMembers = [...team.members, newMember];
+        await team.update({ members: updatedMembers });
+
+        // Assign the team ID to the user and save the user
+        foundUser.team = team.id;
+        await foundUser.save();
+
+        // Return success response
+        res.status(200).json({ message: 'Member added successfully' });
+        
+    } catch (error) {
+        // Log the error and return a 500 status
+        console.error('Error adding member:', error);
+        res.status(500).json({ message: 'Error adding member', error });
+    }
 }

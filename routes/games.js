@@ -6,15 +6,15 @@ import createNewGame from '../controllers/game/createNewGameController.js';
 import popularGames from '../controllers/game/popularGamesControllers.js';
 const router = express.Router();
 router.use(express.json());
-//get all games 
+//get all games working
 router.get('/', getAllGames);
-//edit game info 
+//edit game info working
 router.patch('/:id', editGame);
-//delete game
+//delete game working
 router.delete('/:id', deleteGame);
-//add game 
+//add game working
 router.post('/', createNewGame);
-//populare games 
+//populare games  working
 router.get('/popular', popularGames);
 
 export default router

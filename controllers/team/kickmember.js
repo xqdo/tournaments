@@ -15,7 +15,7 @@ export default function kickMember(req, res)
             }
 
             // Fetch leader's ID
-            return User.findOne({ where: { username: req.user.username } })
+            return User.findOne({ where: { id: req.user.id } })
                 .then(leader =>
                 {
                     if (!leader)

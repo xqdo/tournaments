@@ -12,9 +12,11 @@ import getAllTeams from '../controllers/team/showallteams.js';
 import searchTeamsByName from '../controllers/team/getteam.js';
 const router = express.Router();
 router.use(express.json())
+router.use(auth);
+
 //join team 
 //?????- Edit this -????? working 
-router.patch('/join', JoinTeam)
+router.patch('/join',JoinTeam)
 
 //create team
 //?????- Edit this -????? working 
@@ -30,7 +32,7 @@ router.patch("/leave", leaveTeam)
 router.patch("/edit", patchTeam)
 //list of all teams WORKING 
 router.get('/all', getAllTeams)
-//get one team by name not working well 
+//get one team by name working
 router.get('/:teamName', searchTeamsByName)
 //drop team working
 router.delete('/:teamName', dropTeam)

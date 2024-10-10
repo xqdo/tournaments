@@ -1,8 +1,10 @@
 import { Tournament } from "../../models/tournament.js";
 import crypto from "crypto";
 import slugify from "slugify"; // For slug generation
+import { User } from "../../models/user.js";
 
-export default function createTournament(req, res) {
+export default function createTournament(req, res)
+{
     const {
         name,
         slug,
@@ -39,25 +41,28 @@ export default function createTournament(req, res) {
     } = req.body;
 
     const { user } = req; // Assuming req.user holds the authenticated user
-    console.log(user);
-    if (!user) {
+    if (!user)
+    {
         return res.status(401).send("User not authenticated");
     }
 
     // Generate a unique invite link
-    const linkGen = () => {
+    const linkGen = () =>
+    {
         const link = crypto.randomBytes(8).toString('hex');
-        return Tournament.findOne({ where: { InviteLink: link } }).then(existingLink => {
-            if (existingLink) {
+        return Tournament.findOne({ where: { InviteLink: link } }).then(existingLink =>
+        {
+            if (existingLink)
+            {
                 return linkGen(); // Recursion if link is already taken
             }
             return link;
         });
     };
-
     // Generate slug and invite link, and create the tournament
     linkGen()
-        .then(inviteLink => {
+        .then(inviteLink =>
+        {
             return Tournament.create({
                 name,
                 slug,
@@ -96,14 +101,16 @@ export default function createTournament(req, res) {
                 InviteLink: inviteLink,
                 Bracket: [], // Default empty array
                 Participants: [], // Default empty array
-                creator: user.user, // Set the tournament creator
+                creator: user.id, // Set the tournament creator
                 orginizers: [user.user] // Set the user as the organizer
             });
         })
-        .then(tournament => {
+        .then(tournament =>
+        {
             res.status(201).send({ message: "Tournament created successfully", tournament });
         })
-        .catch(error => {
+        .catch(error =>
+        {
             console.error("Error creating tournament:", error);
             res.status(500).send("Error creating tournament");
         });

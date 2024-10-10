@@ -4,10 +4,10 @@ export default async function getAllParticipants(req, res)
 {
     try
     {
-        const { tournamentId } = req.params;
+        const { slug } = req.params;
 
         // Find the tournament by its ID
-        const tournament = await Tournament.findByPk(tournamentId);
+        const tournament = await Tournament.findOne({ where: { slug } });
 
         if (!tournament)
         {

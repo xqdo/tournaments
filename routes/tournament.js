@@ -27,9 +27,9 @@ router.post("/join/:tournamentLink", joinTournament)
 //leave tournament
 router.get('/leave/:id', leaveTournament)
 //get tournament participants
-router.get('/participants/:tournamentId', getAllParticipants)
+router.get('/participants/:slug', getAllParticipants)
 //edit bracket
 router.patch('/:tournamentId/rounds/:roundNumber/matches/:matchId')
 //add orginizer
-router.post('/addOrginizer/:tournamentId', addOrginizer)
+router.post('/addOrginizer/:slug', addOrginizer)
 export default router

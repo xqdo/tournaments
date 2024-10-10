@@ -16,7 +16,7 @@ export default async function refresh(req, res)
     jwt.verify(token, REFRESH_KEY, (err, user) =>
     {
         if (err) return res.sendStatus(403);
-        const access_token = jwt.sign({ username: user.id }, ACCESS_KEY, { expiresIn: '1h' });
+        const access_token = jwt.sign({ user: user.user }, ACCESS_KEY, { expiresIn: '1h' });
         req.user = user;
         res.json({ access_token })
     });

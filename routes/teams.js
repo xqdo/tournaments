@@ -16,7 +16,7 @@ router.use(auth);
 
 //join team 
 //?????- Edit this -????? working 
-router.patch('/join',JoinTeam)
+router.get('/join/:inviteLink', JoinTeam)
 
 //create team
 //?????- Edit this -????? working 

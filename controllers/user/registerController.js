@@ -3,7 +3,7 @@ import { User } from "../../models/user.js";
 
 export default async function registerUser(req, res)
 {
-    const { username, password, email, o_provider, o_access, o_refresh, o_id, bio, name, profileImage } = req.body
+    const { username, password, email, bio, name, profileImage } = req.body
     if (!username && !name)
     {
         res.status(400).send('provide credintials')
@@ -32,7 +32,7 @@ export default async function registerUser(req, res)
     bcrypt.hash(password, 12).then(pwd =>
     {
 
-        User.create({ id: id, username: username, password: pwd, email: email, o_provider: o_provider, o_access: o_access, o_refresh: o_refresh, o_id: o_id, bio: bio, name: name, profileImage: profileImage }).then(() =>
+        User.create({ id: id, username: username, password: pwd, email: email, bio: bio, name: name, profileImage: profileImage }).then(() =>
         {
 
         }).catch(err => console.error(err))

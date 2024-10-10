@@ -7,6 +7,7 @@ import logout from '../controllers/user/logoutController.js';
 import patchUser from '../controllers/user/edituserController.js';
 import deleteUser from '../controllers/user/deleteUserController.js';
 import auth from "../middlewares/authmw.js"
+import getUserDetails from '../controllers/user/getUserDetails.js';
 const router = express.Router();
 
 router.use(express.json())
@@ -23,7 +24,10 @@ router.get('/', refresh)
 //logout the user
 router.get('/logout', logout)
 
+//get the info of registered user
+router.get('/my', auth, getUserDetails)
 //get User By username
+router.get('/:username', getUserDetails)
 
 //login
 router.post("/login", login)

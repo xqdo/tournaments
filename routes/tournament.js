@@ -22,14 +22,14 @@ router.post("/create", createTournament)
 router.patch('/:id', editTournament)
 //delete tournament working
 router.delete('/:id', deleteTournament)
-//join tournament
-router.post("/join/:tournamentLink", joinTournament)
+//join tournament working
+router.patch("/join/:tournamentLink", joinTournament)
 //leave tournament
 router.get('/leave/:id', leaveTournament)
 //get tournament participants
 router.get('/participants/:slug', getAllParticipants)
 //edit bracket
 router.patch('/:tournamentId/rounds/:roundNumber/matches/:matchId')
-//add orginizer
+//add orginizer working
 router.post('/addOrginizer/:slug', addOrginizer)
 export default router

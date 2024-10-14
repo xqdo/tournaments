@@ -27,7 +27,7 @@ router.get("/:teamName/members", listTeamMembers)
 //kick member working
 router.patch("/kickuser", kickMember)
 //member leave working
-router.patch("/leave", leaveTeam)
+router.patch("/leave", auth, leaveTeam)
 //edit team details working 
 router.patch("/edit", patchTeam)
 //list of all teams WORKING 

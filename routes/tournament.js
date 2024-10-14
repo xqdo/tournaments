@@ -9,6 +9,7 @@ import deleteTournament from '../controllers/tournament/deleteTournament.js';
 import leaveTournament from '../controllers/tournament/leaveTournament.js';
 import getAllParticipants from '../controllers/tournament/getAllParticipants.js';
 import addOrginizer from '../controllers/tournament/addOrginizer.js';
+import { eliminatePlayer } from '../controllers/tournament/updateBracket.js';
 const router = express.Router();
 router.use(express.json());
 router.use(auth);
@@ -30,6 +31,10 @@ router.get('/leave/:id', leaveTournament)
 router.get('/participants/:slug', getAllParticipants)
 //edit bracket
 router.patch('/:tournamentId/rounds/:roundNumber/matches/:matchId')
+//elemiate player in battle royale 
+router.patch('/:tournamentSlug/eliminate', eliminatePlayer)
 //add orginizer working
-router.post('/addOrginizer/:slug', addOrginizer)
+router.patch('/addOrginizer/:slug', addOrginizer)
+//qualify team or player
+router.post('/:tournamentSlug/qualify',)
 export default router

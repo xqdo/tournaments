@@ -1,12 +1,18 @@
 import { Team } from "../../models/team.js";
 import { User } from "../../models/user.js";
 
-export default function leaveTeam(req, res)
+export default async function leaveTeam(req, res)
 {
-    const { teamName } = req.body;  // Expecting the username and the team name
 
+    const { id } = req
+    console.log(id);
+    const lUser = await User.findOne({ where: { id: req.user.id } })
+    if (!lUser)
+    {
+        return res.status(404).json({ message: 'User not found' });
+    }
     // Find the team by its name
-    Team.findOne({ where: { name: teamName } })
+    Team.findByPk(lUser.team)
         .then((team) =>
         {
             if (!team)

@@ -1,6 +1,7 @@
 import { User } from "../../models/user.js";
 import bcrypt from "bcrypt";
-
+import fs from 'fs';
+import path from 'path';
 export default function deleteUser(req, res)
 {
     const { password } = req.body;
@@ -10,6 +11,15 @@ export default function deleteUser(req, res)
     {
         if (bcrypt.compareSync(password, user.password))
         {
+            if (user.profileImage)
+            {
+                const imagePath = path.resolve(user.profileImage);
+                if (fs.existsSync(imagePath))
+                {
+
+                    fs.unlinkSync(imagePath);
+                }
+            }
             user.destroy()
             res.status(200).json({ message: "User deleted successfully" })
         }

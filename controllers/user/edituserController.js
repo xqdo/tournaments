@@ -1,9 +1,11 @@
+import fs from 'fs';
+import path from 'path';
 import bcrypt from 'bcrypt';
 import { User } from "../../models/user.js";
 
 export default function patchUser(req, res)
 {
-    const { username, name, oldpassword, newPassword, bio } = req.body;
+    const { username, name, oldpassword, newPassword, bio, profileImage } = req.body;
     const id = req.user.user
     console.log(req.user);
 
@@ -42,6 +44,18 @@ export default function patchUser(req, res)
                     }
                 }).catch(err => console.log(err))
 
+            }
+            if (profileImage)
+            {
+                if (existingUser.profileImage)
+                {
+                    const imagePath = path.resolve(existingUser.profileImage);
+                    if (fs.existsSync(imagePath))
+                    {
+                        fs.unlinkSync(imagePath);
+                    }
+                    updates.profileImage = req.file ? req.file.path : null
+                }
             }
             // Wait for password hash (if applicable) and then update user
             User.update(updates, { where: { username } }).then(() =>

@@ -1,7 +1,5 @@
 import { Tournament } from "../../models/tournament.js";
 
-import { Tournament } from "../../models/tournament.js";
-
 export default async function buildBracket(req, res)
 {
     try
